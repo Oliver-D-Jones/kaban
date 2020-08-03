@@ -166,7 +166,7 @@ app.use(
 
 // validates the request token, extracts the userIdentity and userInfo
 // fails if any permission is not found in the token
-// Enable RBAC or Extended Rules
+// Enable RBAC or Extended Rules (commit Test)
 app.use(
   "/messages",
   auth0provider.hasPermissions(["read:messages", "write:messages"]),
