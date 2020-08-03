@@ -3,9 +3,11 @@ import BaseController from "../utils/BaseController";
 import auth0provider from "@bcwdev/auth0provider";
 import { profilesService } from "../services/ProfilesService";
 
+
+let _endpoint = "profile"
 export class ProfilesController extends BaseController {
   constructor() {
-    super("api/profile");
+    super("api/" + _endpoint);
     this.router
       .use(auth0provider.getAuthorizedUserInfo)
       .get("", this.getUserProfile)
