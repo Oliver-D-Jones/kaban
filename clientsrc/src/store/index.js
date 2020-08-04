@@ -108,10 +108,9 @@ export default new Vuex.Store({
 
     //#region -- LISTS --
     //  #region -------------- TASKS ---------------------
-    addTask({ commit }, taskData) {
-      api.put('lists/' + taskData.listId).then(res => {
-        console.log("Store addTask", res);
-      })
+    addTask({ commit, dispatch }, taskData) {
+      api.post('tasks/', taskData).then(res => { console.log(res) })
+      dispatch("getTasksByListId", taskData.list)
     },
     getTasksByListId({ commit }, listId) {
       api.get("lists/" + listId + "/tasks/").then(res => {
@@ -120,7 +119,7 @@ export default new Vuex.Store({
       })
 
     },
-
+    // api.put('lists/' + taskData.listId + "/tasks")
 
 
     //#endregion

@@ -19,7 +19,9 @@
         <button class="btn" @click="addTask">+</button>
       </div>
       <div class="col-12">
-        <div class="row">tasks will go here</div>
+        <div class="row">
+          <div v-for="task in tasks" :key="task.id" class="col-12">a task</div>
+        </div>
       </div>
     </div>
   </div>
@@ -47,10 +49,10 @@ export default {
   },
   methods: {
     addTask() {
-      let taskData = { task: this.taskInput, listId: this.listData.id };
+      let taskData = { body: this.taskInput, list: this.listData.id };
       this.$store.dispatch("addTask", taskData);
       this.taskInput = "";
-      $("#list-" + this.listData.id).collapse();
+      $("#list-" + this.listData.id).collapse("toggle");
     },
     getTasksById() {
       this.$store.dispatch("getTasksByListId", this.listData.id);

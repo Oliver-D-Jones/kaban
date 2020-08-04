@@ -19,7 +19,7 @@ export class ListsController extends BaseController {
       .put('/:id', this.edit)
       .delete('/:id', this.delete)
   }
-  // api.put('lists/' + taskData.listId + "/tasks")
+
 
   async getAll(req, res, next) {
     try {
