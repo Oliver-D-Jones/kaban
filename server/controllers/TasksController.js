@@ -52,7 +52,7 @@ export class TasksController extends BaseController {
   async createComment(req, res, next) {
     try {
       req.body.creatorEmail = req.userInfo.email
-      res.send({ data: await tasksService.createComment(req.params.id, req.body), message: "created a task" })
+      res.send(await tasksService.createComment(req.params.id, req.body))
     } catch (error) {
       next(error)
     }
@@ -61,7 +61,7 @@ export class TasksController extends BaseController {
   // edits a comment "subdoc" refrencing the parent task's id and the comment id aswell
   async editCommentBody(req, res, next) {
     try {
-      res.send({ data: await tasksService.editCommentBody(req.params.taskId, req.params.commentId, req.body), message: "updated comment" })
+      res.send(await tasksService.editCommentBody(req.params.taskId, req.params.commentId, req.body))
     } catch (error) {
       next(error)
     }
