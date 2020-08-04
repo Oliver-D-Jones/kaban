@@ -27,7 +27,7 @@ export default new Vuex.Store({
     setBoards(state, boards) {
       state.boards = boards
     },
-    setActiveBoard(state,board){
+    setActiveBoard(state, board) {
       state.activeBoard = board
     }
   },
@@ -63,14 +63,28 @@ export default new Vuex.Store({
           dispatch('getBoards')
         })
     },
-    getActiveBoard({ commit, dispatch }, boardId) {
-      api.get('boards/'+boardId)
+    getActiveBoard(context, boardId) {
+      api.get('boards/' + boardId)
         .then(res => {
           console.log(res.data);
-          commit("setActiveBoard",res.data)
-          dispatch("saveStateToLocal")
+          context.commit("setActiveBoard",res.data)
+          //context.commit("setResource", { resource: "activeBoard", payload: res.data })
+          context.dispatch("saveStateToLocal")
         })
     },
+
+    //------------------LISTS -------------------------------------
+    getListsById(context, boardId) {
+      api.get('lists/' + boardId).then(res => {
+        console.log(res.data);
+        // context.commit("setResource", { resource: "activeLists", payload: res.data })
+      })
+    },
+
+
+
+
+    //-------------- End of Lists -----------------------------
 
     //#endregion
     getStateFromLocal({ commit }) {
@@ -79,7 +93,7 @@ export default new Vuex.Store({
         commit("setActiveBoard", data.activeBoard)
       }
     },
-    saveStateToLocal({state}) {
+    saveStateToLocal({ state }) {
       let save = { activeBoard: state.activeBoard }
       window.localStorage.setItem("Kanban", JSON.stringify(save))
     },
