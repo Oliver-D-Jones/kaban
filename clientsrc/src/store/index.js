@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
 import router from '../router/index'
+import { STATES } from "mongoose"
 
 Vue.use(Vuex)
 
@@ -20,6 +21,9 @@ export default new Vuex.Store({
     boards: [],
     activeBoard: {},
     activeLists: [],
+    tasksByList: {
+
+    }
   },
   mutations: {
     setUser(state, user) {
@@ -33,6 +37,10 @@ export default new Vuex.Store({
     },
     setActiveLists(state, lists) {
       state.activeLists = lists
+    },
+
+    setTasksByList(state, payload) {
+      state.tasksByList[payload.listId] = payload.tasks
     }
   },
   actions: {
@@ -80,13 +88,13 @@ export default new Vuex.Store({
     getListsById(context, boardId) {
       api.get('boards/' + boardId + "/lists").then(res => {
         console.log(res.data);
-        context.commit("setActiveLists",res.data)
+        context.commit("setActiveLists", res.data)
       })
     },
-    addList(context,listData){
-      api.post('lists',listData).then(res=>{
+    addList(context, listData) {
+      api.post('lists', listData).then(res => {
         console.log(res.data);
-        context.commit("setActiveLists",res.data)
+        context.commit("setActiveLists", res.data)
       })
     },
 
@@ -96,6 +104,29 @@ export default new Vuex.Store({
     //-------------- End of Lists -----------------------------
 
     //#endregion
+
+
+    //#region -- LISTS --
+    //  #region -------------- TASKS ---------------------
+    addTask({ commit }, taskData) {
+      api.put('lists/' + taskData.listId).then(res => {
+        console.log("Store addTask", res);
+      })
+    },
+    getTasksByListId({ commit }, listId) {
+      api.get("lists/" + listId + "/tasks/").then(res => {
+        console.log(res.data);
+        commit("setTasksByList", { listId: listId, tasks: res.data })
+      })
+
+    },
+
+
+
+    //#endregion
+
+
+
     getStateFromLocal({ commit }) {
       let data = JSON.parse(window.localStorage.getItem("Kanban"));
       if (data) {
@@ -106,11 +137,9 @@ export default new Vuex.Store({
       let save = { activeBoard: state.activeBoard }
       window.localStorage.setItem("Kanban", JSON.stringify(save))
     },
-
-    //#region -- LISTS --
-
-
-
-    //#endregion
   }
 })
+
+
+
+

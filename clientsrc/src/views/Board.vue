@@ -12,14 +12,12 @@
           data-target="#modal"
         >Add A List</button>
       </div>
-      <div v-if="lists.length>0">
-        <div class="col-4" v-for="list in lists" :key="list.id">
-          <List :List="list" :key="list.id" />
-        </div>
-      </div>
-      <div v-else>
-        <h1>Start By Making A List</h1>
-      </div>
+    </div>
+    <div v-if="lists.length>0" class="row">
+      <List v-for="list in lists" :key="list.id" :listData="list"></List>
+    </div>
+    <div v-else>
+      <h1>Start By Making A List</h1>
     </div>
 
     <div class="modal fade" id="modal">
@@ -48,7 +46,7 @@
 </template>
 
 <script>
-import List from "../components/ListComponent"
+import List from "../components/ListComponent";
 export default {
   name: "board",
   data: {
@@ -81,6 +79,6 @@ export default {
     this.newList = {};
   },
   props: [],
-  components:{List}
+  components: { List },
 };
 </script>

@@ -19,7 +19,7 @@ export class ListsController extends BaseController {
       .put('/:id', this.edit)
       .delete('/:id', this.delete)
   }
-
+  // api.put('lists/' + taskData.listId + "/tasks")
 
   async getAll(req, res, next) {
     try {
@@ -38,6 +38,7 @@ export class ListsController extends BaseController {
   }
 
   async getChildren(req, res, next) {
+    console.log("LC getChildren", req);
     try {
       let data = await tasksService.getByParentId(req.params.id)
       return res.send(data)
@@ -55,12 +56,14 @@ export class ListsController extends BaseController {
   }
 
   async edit(req, res, next) {
+    console.log(req);
     try {
       req.body.creatorEmail = req.userInfo.email
       let data = await listsService.edit(req.params.id, req.userInfo.email, req.body)
       return res.send(data)
     } catch (error) { next(error) }
   }
+
 
   async delete(req, res, next) {
     try {
