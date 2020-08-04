@@ -19,13 +19,12 @@ export default new Router({
       path: '/boards',
       name: 'boards',
       component: Boards,
-      beforeEnter: authGuard
+      beforeEnter: authGuard,
     },
     {
       path: '/boards/:boardId',
       name: 'board',
       component: Board,
-      beforeEnter: setBoard,
     },
     {
       path: "*",
@@ -34,12 +33,3 @@ export default new Router({
   ],
 
 })
-async function setBoard(to, from, next) {
-  try {
-    console.log(to.params.boardId)
-    await store.dispatch("getActiveBoard", to.params.boardId);
-    next();
-  } catch (error) {
-    console.log(error)
-  }
-}

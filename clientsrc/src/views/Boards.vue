@@ -73,9 +73,6 @@ export default {
       this.$store.dispatch("addBoard", this.newBoard);
       this.newBoard = { title: "", description: ""};
     },
-    setActiveBoard(id) {
-      // this.$store.dispatch("getActiveBoard", id);
-    },
   },
 };
 </script>

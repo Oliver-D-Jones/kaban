@@ -18,7 +18,8 @@ export default new Vuex.Store({
   state: {
     user: {},
     boards: [],
-    activeBoard: {}
+    activeBoard: {},
+    activeLists: [],
   },
   mutations: {
     setUser(state, user) {
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     },
     setActiveBoard(state, board) {
       state.activeBoard = board
+    },
+    setActiveLists(state, lists) {
+      state.activeLists = lists
     }
   },
   actions: {
@@ -66,18 +70,23 @@ export default new Vuex.Store({
     getActiveBoard(context, boardId) {
       api.get('boards/' + boardId)
         .then(res => {
-          console.log(res.data);
-          context.commit("setActiveBoard",res.data)
-          //context.commit("setResource", { resource: "activeBoard", payload: res.data })
+          console.log("in actvieBoard()", res.data);
+          context.commit("setActiveBoard", res.data)
           context.dispatch("saveStateToLocal")
         })
     },
 
     //------------------LISTS -------------------------------------
     getListsById(context, boardId) {
-      api.get('lists/' + boardId).then(res => {
+      api.get('boards/' + boardId + "/lists").then(res => {
         console.log(res.data);
-        // context.commit("setResource", { resource: "activeLists", payload: res.data })
+        context.commit("setActiveLists",res.data)
+      })
+    },
+    addList(context,listData){
+      api.post('lists',listData).then(res=>{
+        console.log(res.data);
+        context.commit("setActiveLists",res.data)
       })
     },
 
