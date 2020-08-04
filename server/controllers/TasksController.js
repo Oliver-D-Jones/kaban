@@ -15,9 +15,11 @@ export class TasksController extends BaseController {
       .get('/:id', this.getById)
       .post('', this.create)
       .put('/:id', this.edit)
-      .post('/:id/comments', this.createComment)
-      .put('/:taskId/comments/commentId', this.editCommentBody)
       .delete('/:id', this.delete)
+      // comment routes \/
+      .post('/:id/comments', this.createComment)
+      .put('/:taskId/comments/:commentId', this.editCommentBody)
+      .delete('/:taskId/comments/:commentId', this.deleteComment)
   }
 
 
@@ -49,6 +51,7 @@ export class TasksController extends BaseController {
   // creates a comment "subdoc" refrencing the tasks id
   async createComment(req, res, next) {
     try {
+      req.body.creatorEmail = req.userInfo.email
       res.send({ data: await tasksService.createComment(req.params.id, req.body), message: "created a task" })
     } catch (error) {
       next(error)
@@ -59,6 +62,15 @@ export class TasksController extends BaseController {
   async editCommentBody(req, res, next) {
     try {
       res.send({ data: await tasksService.editCommentBody(req.params.taskId, req.params.commentId, req.body), message: "updated comment" })
+    } catch (error) {
+      next(error)
+    }
+  }
+  // Delets a comment refrencing the task id and the comment id
+  async deleteComment(req, res, next) {
+    try {
+      await tasksService.deleteComment(req.params.taskId, req.params.commentId)
+      res.send("deleted comment")
     } catch (error) {
       next(error)
     }

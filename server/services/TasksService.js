@@ -43,6 +43,12 @@ class TasksService {
       { $set: { "comment.$.body": body.score } },
       { new: true })
   }
+  // Deletes comment
+  async deleteComment(taskId, commentId) {
+    return await dbContext.Tasks.findOneAndRemove(
+      { _id: taskId, comments: { _id: commentId } },
+    )
+  }
 
   async edit(id, userEmail, update) {
     let data = await dbContext.Tasks.findOneAndUpdate({ _id: id, creatorEmail: userEmail }, update, { new: true })
