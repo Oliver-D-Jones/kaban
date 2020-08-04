@@ -1,7 +1,13 @@
 <template>
-  <div class="board">
-    <h1 v-if="board.title">{{board.title}}</h1>
-    <h1 v-else>Loading...</h1>
+  <div class="board container-fluid">
+    <div class="row justify-content-center" v-if="board.title">
+      <div class="col-8">
+        <h1>{{board.title}}</h1>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-outline-dark btn-sm">Add New Task</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,9 +17,13 @@ export default {
   computed: {
     board() {
       //FIXME This does not work on page reload because the activeBoard is empty in the store
-      return this.$store.state.activeBoard;
-    }
+      if (!this.$store.activeBoard) {
+        this.$store.dispatch("getStateFromLocal");
+        return this.$store.state.activeBoard;
+      }
+    },
+    mounted() {},
   },
-  props: ["boardId"]
+  props: [],
 };
 </script>
