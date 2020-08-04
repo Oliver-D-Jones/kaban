@@ -14,6 +14,13 @@ class ListService {
     }
     return data
   }
+  async getByParentId(id) {
+    let data = await dbContext.Lists.find({ board: id }).populate("board")
+    if (!data) {
+      throw new BadRequest("there are no lists on this board")
+    }
+    return data
+  }
 
   async create(rawData) {
     let data = await dbContext.Lists.create(rawData)
