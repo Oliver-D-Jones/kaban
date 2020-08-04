@@ -15,6 +15,8 @@ export class TasksController extends BaseController {
       .get('/:id', this.getById)
       .post('', this.create)
       .put('/:id', this.edit)
+      .post('/:id/comments', this.createComment)
+      .put('/:taskId/comments/commentId', this.editCommentBody)
       .delete('/:id', this.delete)
   }
 
@@ -41,6 +43,25 @@ export class TasksController extends BaseController {
       let data = await tasksService.create(req.body)
       return res.status(201).send(data)
     } catch (error) { next(error) }
+  }
+
+
+  // creates a comment "subdoc" refrencing the tasks id
+  async createComment(req, res, next) {
+    try {
+      res.send({ data: await tasksService.createComment(req.params.id, req.body), message: "created a task" })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  // edits a comment "subdoc" refrencing the parent task's id and the comment id aswell
+  async editCommentBody(req, res, next) {
+    try {
+      res.send({ data: await tasksService.editCommentBody(req.params.taskId, req.params.commentId, req.body), message: "updated comment" })
+    } catch (error) {
+      next(error)
+    }
   }
 
   async edit(req, res, next) {
