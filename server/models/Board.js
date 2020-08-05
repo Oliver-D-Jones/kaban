@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 let Schema = mongoose.Schema
+import dbContext from "../db/DbContext"
 let ObjectId = Schema.Types.ObjectId
 
 const Board = new Schema({
@@ -16,7 +17,7 @@ Board.virtual("creator",
     justOne: true
   })
 
-//CASCADE ON DELETE
+// CASCADE ON DELETE
 // Board.pre('findOneAndRemove', function (next) {
 //   //lets find all the lists and remove them
 //   Promise.all([

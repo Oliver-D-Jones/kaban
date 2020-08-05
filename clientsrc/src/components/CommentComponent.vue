@@ -1,5 +1,11 @@
 <template>
-  <div class="comment col-12">{{commentData.body}}</div>
+  <div class="comment">
+    {{commentData.body}}
+    <span v-if="commentData.creatorEmail==this.$store.state.user.email">
+      <!-- <button class="btn btn-sm" @click="editComment">Edit</button> -->
+      <button class="btn btn-sm" @click="deleteComment">Delete</button>
+    </span>
+  </div>
 </template>
 
 
@@ -9,9 +15,22 @@ export default {
   data() {
     return {};
   },
-  props: ["commentData"],
+  props: ["commentData", "taskData"],
   computed: {},
-  methods: {},
+  methods: {
+    editComment() {
+      this.$store.dispatch("editComment", {
+        id: this.commentData.id,
+        body: this.commentData.body,
+      });
+    },
+    deleteComment() {
+      this.$store.dispatch("deleteComment", {
+        comment_id: this.commentData.id,
+        task: this.taskData,
+      });
+    },
+  },
   components: {},
 };
 </script>

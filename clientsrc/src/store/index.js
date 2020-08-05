@@ -85,6 +85,12 @@ export default new Vuex.Store({
           context.dispatch("saveStateToLocal")
         })
     },
+    deleteBoard({ commit, dispatch }, boardId) {
+      api.delete('boards/'+boardId)
+        .then(serverBoard => {
+         // dispatch('getBoards')
+        })
+    },
 
     //------------------LISTS -------------------------------------
     getListsById(context, boardId) {
@@ -97,6 +103,11 @@ export default new Vuex.Store({
       api.post('lists', listData).then(res => {
         console.log(res.data);
         context.commit("setActiveLists", res.data)
+      })
+    },
+    deleteList(context, listId) {
+      api.delete('lists/'+listId).then(res => {
+      context.dispatch("getListsById",context.state.activeBoard.id)
       })
     },
 
@@ -123,6 +134,11 @@ export default new Vuex.Store({
       })
 
     },
+    deleteTask({ commit, dispatch }, task) {
+      api.delete('tasks/'+task.id).then(res => {
+        dispatch("getTasksByListId", task.list.id)
+      })
+    },
 
     moveTask({ commit, dispatch }, taskData) {
       api.put("tasks/" + taskData.taskId, taskData.newListId).then(res => {
@@ -136,6 +152,13 @@ export default new Vuex.Store({
       api.post("tasks/" + commentData.taskId + "/comments", commentData.comment).then(res => {
         console.log(res)
         dispatch("getTasksByListId", commentData.listId)
+      })
+    },
+    deleteComment({ commit, dispatch }, obj) {
+      // debugger
+      api.put("tasks/" + obj.task.id + "/comments/"+ obj.comment_id).then(res => {
+        console.log(res)
+        dispatch("getTasksByListId", obj.task.list.id)
       })
     },
     // api.put('lists/' + taskData.listId + "/tasks")

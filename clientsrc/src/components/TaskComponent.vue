@@ -16,15 +16,17 @@
             href="#"
             @click="moveTask(list.id)"
           >{{list.title}}</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Separated link</a>
+          <div class="dropdown-divider border"></div>
+          <a class="dropdown-item text-warning" href="#" @click="deleteTask">Delete Task</a>
         </div>
       </div>
+
       <div :id="'comment-'+taskData.id" class="collapse col-12">
-        <Comments v-for="comment in comments" :key="comment.id" :commentData="comment"></Comments>
+        <Comments v-for="comment in comments" :key="comment.id" :commentData="comment" :taskData="taskData"></Comments>
         <input v-model="newCommentBody" type="text" class="col-10" />
-        <button class="col-2" @click="addComment"></button>
+        <button class="col-4" @click="addComment">+</button>
       </div>
+
     </div>
   </div>
 </template>
@@ -56,6 +58,9 @@ export default {
         newListId: { list: listId },
         oldListId: this.taskData.list.id,
       });
+    },
+    deleteTask() {
+      this.$store.dispatch("deleteTask",this.taskData)
     },
     addComment() {
       this.$store.dispatch("addComment", {
