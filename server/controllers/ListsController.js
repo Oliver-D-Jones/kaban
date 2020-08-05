@@ -38,7 +38,7 @@ export class ListsController extends BaseController {
   }
 
   async getChildren(req, res, next) {
-    console.log("LC getChildren", req);
+    // console.log("LC getChildren", req); this broke the data base
     try {
       let data = await tasksService.getByParentId(req.params.id)
       return res.send(data)
