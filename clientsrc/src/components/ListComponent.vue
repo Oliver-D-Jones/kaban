@@ -20,7 +20,12 @@
       </div>
       <div class="col-12">
         <div class="row">
-          <div v-for="task in tasks" :key="task.id" class="col-12">a task</div>
+          <TaskComponent
+            v-for="task in tasks"
+            :key="task.id"
+            v-on:update="textEdited()"
+            :taskData="task"
+          ></TaskComponent>
         </div>
       </div>
     </div>
@@ -29,6 +34,7 @@
 
 
 <script>
+import TaskComponent from "./TaskComponent";
 export default {
   name: "list",
   data() {
@@ -54,11 +60,15 @@ export default {
       this.taskInput = "";
       $("#list-" + this.listData.id).collapse("toggle");
     },
-    async getTasksById() {
-      await this.$store.dispatch("getTasksByListId", this.listData.id);
+    getTasksById() {
+      this.$store.dispatch("getTasksByListId", this.listData.id);
+    },
+    textEdited() {
+      console.log("emit heard");
+      this.getTasksById();
     },
   },
-  components: {},
+  components: { TaskComponent },
   props: ["listData"],
 };
 </script>

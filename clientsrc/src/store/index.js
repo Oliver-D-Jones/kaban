@@ -33,6 +33,7 @@ export default new Vuex.Store({
       state.boards = boards
     },
     setActiveBoard(state, board) {
+      state.activeBoard = {}
       state.activeBoard = board
     },
     setActiveLists(state, lists) {
@@ -110,15 +111,32 @@ export default new Vuex.Store({
     //#region -- LISTS --
     //  #region -------------- TASKS ---------------------
     addTask({ commit, dispatch }, taskData) {
-      api.post('tasks/', taskData).then(res => { console.log(res) })
-      dispatch("getTasksByListId", taskData.list)
+      api.post('tasks/', taskData).then(res => {
+        console.log(res)
+        dispatch("getTasksByListId", taskData.list)
+      })
     },
     getTasksByListId({ commit }, listId) {
       api.get("lists/" + listId + "/tasks/").then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         commit("setTasksByList", { listId: listId, tasks: res.data })
       })
 
+    },
+
+    moveTask({ commit, dispatch }, taskData) {
+      api.put("tasks/" + taskData.taskId, taskData.newListId).then(res => {
+        dispatch("getTasksByListId", taskData.oldListId)
+        dispatch("getTasksByListId", taskData.newListId.list)
+      })
+    },
+
+    ////#region----------------- COMMENTS REGION---------------
+    addComment({ commit, dispatch }, commentData) {
+      api.post("tasks/" + commentData.taskId + "/comments", commentData.comment).then(res => {
+        console.log(res)
+        dispatch("getTasksByListId", commentData.listId)
+      })
     },
     // api.put('lists/' + taskData.listId + "/tasks")
 
