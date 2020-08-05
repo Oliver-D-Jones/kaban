@@ -1,6 +1,5 @@
 import mongoose from "mongoose"
 let Schema = mongoose.Schema
-import dbContext from "../db/DbContext"
 let ObjectId = Schema.Types.ObjectId
 
 const Board = new Schema({
