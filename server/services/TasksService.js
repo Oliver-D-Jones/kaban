@@ -45,8 +45,8 @@ class TasksService {
   }
   // Deletes comment
   async deleteComment(taskId, commentId) {
-    return await dbContext.Tasks.findOneAndRemove(
-      { _id: taskId, comments: { _id: commentId } },
+    return await dbContext.Tasks.findOneAndUpdate(
+      { _id: taskId }, { $pull: { comments: { _id: commentId } } },
     )
   }
 
