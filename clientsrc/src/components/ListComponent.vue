@@ -20,9 +20,7 @@
       </div>
       <div class="col-12">
         <div class="row">
-          <div v-if="componentLoaded">
-            <div v-for="task in tasks" :key="task.id" class="col-12">a task</div>
-          </div>
+          <div v-for="task in tasks" :key="task.id" class="col-12">a task</div>
         </div>
       </div>
     </div>
@@ -35,13 +33,11 @@ export default {
   name: "list",
   data() {
     return {
-      componentLoaded: false,
       taskInput: "",
     };
   },
   mounted() {
     this.getTasksById();
-    this.componentLoaded = true;
   },
   computed: {
     user() {
@@ -58,8 +54,8 @@ export default {
       this.taskInput = "";
       $("#list-" + this.listData.id).collapse("toggle");
     },
-    getTasksById() {
-      this.$store.dispatch("getTasksByListId", this.listData.id);
+    async getTasksById() {
+      await this.$store.dispatch("getTasksByListId", this.listData.id);
     },
   },
   components: {},
