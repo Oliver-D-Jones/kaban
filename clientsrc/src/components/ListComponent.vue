@@ -20,6 +20,7 @@
       </div>
       <div class="col-12">
         <div class="row">
+          <div v-if="tasks>0"></div>
           <div v-for="task in tasks" :key="task.id" class="col-12">a task</div>
         </div>
       </div>
