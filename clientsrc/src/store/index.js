@@ -124,10 +124,18 @@ export default new Vuex.Store({
 
     },
 
-    moveTask({ commit, dispatch, state }, taskData) {
+    moveTask({ commit, dispatch }, taskData) {
       api.put("tasks/" + taskData.taskId, taskData.newListId).then(res => {
-        dispatch("getTasksByListId", taskData.oldListId.id)
+        dispatch("getTasksByListId", taskData.oldListId)
         dispatch("getTasksByListId", taskData.newListId.list)
+      })
+    },
+
+    ////#region----------------- COMMENTS REGION---------------
+    addComment({ commit, dispatch }, commentData) {
+      api.post("tasks/" + commentData.taskId + "/comments", commentData.comment).then(res => {
+        console.log(res)
+        dispatch("getTasksByListId", commentData.listId)
       })
     },
     // api.put('lists/' + taskData.listId + "/tasks")

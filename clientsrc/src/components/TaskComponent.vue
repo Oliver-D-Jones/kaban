@@ -1,7 +1,11 @@
 <template>
   <div class="task col-12">
     <div class="row">
-      <div class="col">{{taskData.body}}</div>
+      <div
+        data-toggle="collapse"
+        :data-target="'#comment-'+taskData.id"
+        class="col"
+      >{{taskData.body}}</div>
       <div class="btn-group col-3">
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">edit</button>
         <div class="dropdown-menu">
@@ -16,19 +20,30 @@
           <a class="dropdown-item" href="#">Separated link</a>
         </div>
       </div>
+      <div :id="'comment-'+taskData.id" class="collapse col-12">
+        <Comments v-for="comment in comments" :key="comment.id" :commentData="comment"></Comments>
+        <input v-model="newCommentBody" type="text" class="col-10" />
+        <button class="col-2" @click="addComment"></button>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script>
+import Comments from "./CommentComponent";
 export default {
   name: "task",
   data() {
-    return {};
+    return {
+      newCommentBody: "",
+    };
   },
   props: ["taskData"],
   computed: {
+    comments() {
+      return this.taskData.comments;
+    },
     lists() {
       return this.$store.state.activeLists;
     },
@@ -39,15 +54,22 @@ export default {
       this.$store.dispatch("moveTask", {
         taskId: this.taskData.id,
         newListId: { list: listId },
-        oldListId: this.taskData.list,
+        oldListId: this.taskData.list.id,
       });
     },
+    addComment() {
+      this.$store.dispatch("addComment", {
+        taskId: this.taskData.id,
+        comment: { body: this.newCommentBody },
+        listId: this.taskData.list.id,
+      });
+      this.newCommentBody = "";
+    },
   },
-  components: {},
+  components: { Comments },
 };
 </script>
 
 
 <style scoped>
-v-on: click= "$emit('update')";
 </style>
