@@ -1,5 +1,5 @@
 <template>
-  <div class="list bg-dark border mr-3 py-1" v-on:drop="drop" v-on:dragover="allowDrop">
+  <div class="list bg-dark border align-top mr-3 py-1" v-on:drop="drop" v-on:dragover="allowDrop">
     <div class="container-fluid">
       <div class="row justify-content-between">
         <div class="col-6">

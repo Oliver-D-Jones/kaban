@@ -1,18 +1,11 @@
 <template>
-  <div class="board container-fluid pt-2 text-light bg-primary list-scroll">
+  <div
+    class="board container-fluid pt-2 text-light bg-primary list-scroll"
+    id="x-scroll"
+    @mousewheel.prevent="scrollEvent()"
+  >
     <div v-if="board.title">
-      <div class="row row_top fixed-top">
-        <div class="col-3">
-          <button
-            type="button"
-            class="btn btn-outline-danger border rounded shadow text-light font-weight-bold"
-            data-toggle="modal"
-            data-target="#deleteBoardModal"
-          >Delete Board</button>
-        </div>
-        <div class="col-6 text-center text-shadow">
-          <h1>{{board.title}}</h1>
-        </div>
+      <div class="row row_top fixed-top justify-content-between align-items-center px-2 py-1">
         <div class="col-3">
           <button
             type="button"
@@ -21,11 +14,23 @@
             data-target="#addListModal"
           >Add A List</button>
         </div>
+        <div class="col text-center text-shadow">
+          <h1>{{board.title}}</h1>
+        </div>
+        <div class="col-3 d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn btn-outline-danger border rounded shadow text-light font-weight-bold mx-0"
+            data-toggle="modal"
+            data-target="#deleteBoardModal"
+          >Delete Board</button>
+        </div>
       </div>
 
-      <div v-if="lists.length>0">
-        <div id="list_con" class="bg-primary" style="width:100.5%">
-          <List v-for="list in lists" :key="list.id" :listData="list"></List>
+      <div class="row mt-space flex-column" v-if="lists.length>0">
+        <!-- Lists drop in here -->
+        <div>
+          <List v-for="list in lists" :key="list.id" :listData="list" class="col-12"></List>
         </div>
       </div>
       <div v-else>
@@ -123,6 +128,9 @@ export default {
       return this.$store.state.activeLists;
     },
   },
+  mounted() {
+    document.addEventListener("scroll", this.scrollEvent);
+  },
   methods: {
     addList() {
       $("#addListModal").modal("hide");
@@ -134,6 +142,15 @@ export default {
       $("#deleteBoardModal").modal("hide");
       this.$store.dispatch("deleteBoard", this.board.id);
       this.$router.push({ name: "boards" });
+    },
+
+    scrollEvent() {
+      console.log(event);
+      let dy = event.deltaY;
+      let dx = event.deltaX;
+      let direction = dy;
+      Math.abs(dx) > Math.abs(dy) ? (direction = dx) : (direction = dy);
+      window.document.getElementById("x-scroll").scrollBy(direction / 2, 0);
     },
   },
   beforeMount() {
@@ -147,13 +164,18 @@ export default {
 };
 </script>
 <style>
+.test-box {
+  height: 50px;
+  width: 50px;
+  background-color: red;
+}
+
 .board {
   /* width: 200%; */
   text-align: left;
   margin-top: 50px;
 }
 .row_top {
-  max-width: 100vw;
   margin-top: 55px;
 }
 #list_con {
@@ -169,13 +191,20 @@ export default {
   overflow-y: scroll;
 }
 
+.mt-space {
+  margin-top: 5.5em;
+}
+
 .list-scroll {
+  height: 93vh;
   width: auto;
   white-space: nowrap;
   overflow-x: auto;
 }
 
 .list-scroll::-webkit-scrollbar {
+  position: bottom;
+
   width: 2px;
 }
 .list-scroll::-webkit-scrollbar-track {
