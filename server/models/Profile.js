@@ -7,6 +7,7 @@ const Profile = new Schema(
     email: { type: String, lowercase: true, unique: true },
     name: { type: String, required: true },
     collabBoards: [],
+    pendingBoards: [],
     picture: { type: String }
     // NOTE If you wish to add additional public properties for profiles do so here
   },

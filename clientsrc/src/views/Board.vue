@@ -6,18 +6,24 @@
   >
     <div v-if="board.title">
       <div class="row row_top fixed-top justify-content-between align-items-center px-2 py-1">
-        <div class="col-3">
+        <div class="col-2">
           <button
             type="button"
             class="btn btn-outline-light border rounded shadow font-weight-bold"
             data-toggle="modal"
             data-target="#addListModal"
           >Add A List</button>
+          <button
+            type="button"
+            class="btn btn-outline-light border rounded shadow font-weight-bold"
+            data-toggle="modal"
+            data-target="#addListModal"
+          >Add a Collaborator</button>
         </div>
         <div class="col text-center text-shadow">
           <h1>{{board.title}}</h1>
         </div>
-        <div class="col-3 d-flex justify-content-end">
+        <div class="col-2 d-flex justify-content-end">
           <button
             type="button"
             class="btn btn-outline-danger border rounded shadow text-light font-weight-bold mx-0"
