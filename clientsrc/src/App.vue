@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    <navbar />
-    <router-view />
+  <div id="app" class="bg-primary">
+    <navbar class="fixed-top" />
+    <router-view style="margin-top:50px"/>
   </div>
 </template>
 
@@ -20,8 +20,8 @@ export default {
     }
   },
   components: {
-    Navbar
-  }
+    Navbar,
+  },
 };
 </script>
 
@@ -37,17 +37,21 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: lightskyblue;
+  // background-color: black;
   min-height: 100vh;
 }
 
 #nav {
-  padding: 30px;
+  padding: 0.25rem;
+  background: rgb(134, 132, 132);
+  font-weight: bold;
+  color: rgb(26, 67, 109);
+  height:50px
+
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+#nav a:hover {
+  border-bottom: lightsteelblue 1px solid;
 }
 
 #nav a.router-link-exact-active {

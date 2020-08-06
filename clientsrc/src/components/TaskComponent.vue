@@ -1,31 +1,50 @@
 <template>
-  <div class="task col-12">
-    <div class="row">
-      <div
-        data-toggle="collapse"
-        :data-target="'#comment-'+taskData.id"
-        class="col"
-      >{{taskData.body}}</div>
-      <div class="btn-group col-3">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">edit</button>
-        <div class="dropdown-menu">
+  <div class="task container-fluid">
+    <div class="row mt-1 border">
+      <div v-on:dragstart="dragTask(taskData.id)" draggable="true" class="col-10">
+        <button
+          class="btn btn-sm btn-primary mr-1"
+          data-toggle="collapse"
+          :data-target="'#comment-'+taskData.id"
+        >+</button>
+        <div :id="'comment-' + taskData.id" class="w-100 mt-1 bg-primary collapse">
+          <textarea
+            v-model="newCommentBody"
+            type="text"
+            class="mx-0 w-100"
+            placeholder=" Enter Comment..."
+          />
+          <button class="btn btn-info btn-sm text-right mb-1" @click="addComment">Add Comment</button>
+        </div>
+              <div class="col-1 btn-group">
+        <button
+          type="button"
+          class="btn btn-small btn-primary dropdown-toggle"
+          data-toggle="dropdown"
+        ></button>
+
+        <div class="dropdown-menu bg-primary border rounded">
+          <a href="#" class="text-center pl-1">Move Task To Other List</a>
+          <div class="dropdown-divider border"></div>
+
           <a
             v-for="list in lists"
             :key="list.id"
-            class="dropdown-item"
+            class="dropdown-item border-bottom"
             href="#"
             @click="moveTask(list.id)"
           >{{list.title}}</a>
+
           <div class="dropdown-divider border"></div>
-          <a class="dropdown-item text-warning" href="#" @click="deleteTask">Delete Task</a>
+          <a class="dropdown-item text-danger" href="#" @click="deleteTask">Delete Task</a>
         </div>
       </div>
-
-      <div :id="'comment-'+taskData.id" class="collapse col-12">
-        <Comments v-for="comment in comments" :key="comment.id" :commentData="comment" :taskData="taskData"></Comments>
-        <input v-model="newCommentBody" type="text" class="col-10" />
-        <button class="col-4" @click="addComment">+</button>
+        <p>{{taskData.body}}</p>
+        <Comments v-for="comment in comments" :commentData="comment" :taskData="taskData" :key="comment.id" />
       </div>
+
+      <!-- data-toggle="collapse" :data-target="'#comment-'+taskData.id" -->
+
 
     </div>
   </div>
@@ -41,7 +60,7 @@ export default {
       newCommentBody: "",
     };
   },
-  props: ["taskData"],
+  props: ["taskData", "index"],
   computed: {
     comments() {
       return this.taskData.comments;
@@ -51,6 +70,13 @@ export default {
     },
   },
   methods: {
+    dragTask(id) {
+      console.log("dragged task", id);
+      event.dataTransfer.setData(
+        "text/plain",
+        `${id} ${this.taskData.list.id}`
+      );
+    },
     moveTask(listId) {
       console.log("task moved");
       this.$store.dispatch("moveTask", {
@@ -60,9 +86,12 @@ export default {
       });
     },
     deleteTask() {
-      this.$store.dispatch("deleteTask",this.taskData)
+      this.$store.dispatch("deleteTask", this.taskData);
     },
     addComment() {
+      if (!this.newCommentBody.trim()) {
+        return "No Comment Given.";
+      }
       this.$store.dispatch("addComment", {
         taskId: this.taskData.id,
         comment: { body: this.newCommentBody },

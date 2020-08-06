@@ -1,9 +1,11 @@
 <template>
   <div class="comment">
+    <p style="display:inline" class="mr-5">
     {{commentData.body}}
+    </p>
     <span v-if="commentData.creatorEmail==this.$store.state.user.email">
       <!-- <button class="btn btn-sm" @click="editComment">Edit</button> -->
-      <button class="btn btn-sm" @click="deleteComment">Delete</button>
+      <button class="btn btn-sm btn-info" @click="deleteComment">X</button>
     </span>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light border mb-2">
-    <router-link class="navbar-brand" :to="{ name: 'home' }"
+  <nav id="nav" class="navbar navbar-expand-lg border text-light mb-2 pl-3 pr-3">
+    <router-link class="navbar-brand border rounded shadow px-2" :to="{ name: 'home' }"
       >Kanban</router-link
     >
     <button
@@ -39,7 +39,7 @@
         >
           Login
         </button>
-        <button class="btn btn-danger" @click="logout" v-else>Logout</button>
+        <button class="btn btn-light" @click="logout" v-else>Logout</button>
       </span>
     </div>
   </nav>
@@ -51,8 +51,6 @@ export default {
   name: "Navbar",
   methods: {
     async login() {
-          console.log("loginNavbar",this.$auth.isAuthenticated);
-
       await this.$auth.loginWithPopup();
       this.$store.dispatch("setBearer", this.$auth.bearer);
       this.$store.dispatch("getProfile");
@@ -67,5 +65,7 @@ export default {
 </script>
 
 <style scoped>
+#nav{
 
+}
 </style>

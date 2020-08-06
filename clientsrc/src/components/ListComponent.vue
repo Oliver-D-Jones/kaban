@@ -1,23 +1,49 @@
 <template>
-  <div class="list col-4 bg-light border">
-    <h4>{{listData.title}}</h4>
-    <button
-      class="btn btn-info py-1"
-      data-toggle="collapse"
-      :data-target="'#list-' + listData.id"
-    >Add Task</button>
-    <button
-      class="btn btn-danger py-1"
-      v-if="user.email == listData.creatorEmail"
-      data-toggle="modal"
-      :data-target="'#deleteListModal'+ this.listData.id"
-    >Delete List</button>
-    <div :id="'list-' + listData.id" class="col-12 bg-secondary collapse">
-      <input v-model="taskInput" type="text" class="mx-0" />
-      <button class="btn" @click="addTask">+</button>
+  <div class="list bg-dark border mr-3 py-1" v-on:drop="drop" v-on:dragover="allowDrop">
+    <div class="container-fluid" >
+      <div class="row justify-content-between">
+        <div class="col-6">
+          <button
+            class="btn btn-outline-warning"
+            v-if="user.email == listData.creatorEmail"
+            data-toggle="modal"
+            :data-target="'#deleteListModal'+ this.listData.id"
+          >Delete List</button>
+        </div>
+
+        <div class="col-6 text-right">
+          <button
+            class="btn btn-info"
+            data-toggle="collapse"
+            :data-target="'#list-' + listData.id"
+          >Add Task</button>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-12 pt-1 bg-primary">
+          <h5 class="text-wrap">{{listData.title}}</h5>
+        </div>
+        <div :id="'list-' + listData.id" class="w-100 mt-1 bg-secondary collapse">
+          <input
+            v-model="taskInput"
+            type="text"
+            class="mx-0 w-100"
+            placeholder=" Enter Task Title..."
+          />
+          <button class="btn btn-info btn-sm ml-2" @click="addTask">+</button>
+        </div>
+      </div>
     </div>
-    <TaskComponent v-for="task in tasks" :key="task.id" v-on:update="textEdited()" :taskData="task"></TaskComponent>
-    <div class="modal fade" :id="'deleteListModal'+ this.listData.id" >
+
+    <TaskComponent
+      v-for="(task,index) in tasks"
+      :key="task.id"
+      :index="index"
+      v-on:update="textEdited()"
+      :taskData="task"
+    ></TaskComponent>
+
+    <div class="modal fade" :id="'deleteListModal'+ this.listData.id">
       <div class="modal-dialog">
         <div class="modal-content">
           <!-- Modal Header -->
@@ -64,6 +90,23 @@ export default {
     },
   },
   methods: {
+    allowDrop() {
+      event.preventDefault();
+    },
+    drop() {
+      event.preventDefault();
+      let data = event.dataTransfer.getData("text/plain");
+      this.moveTask(data);
+      this.tasks()
+    },
+    moveTask(data) {
+      let keys = data.split(" ");
+      this.$store.dispatch("moveTask", {
+        taskId: keys[0],
+        newListId: { list: this.listData.id },
+        oldListId: { list: keys[1] },
+      });
+    },
     addTask() {
       let taskData = { body: this.taskInput, list: this.listData.id };
       this.$store.dispatch("addTask", taskData);
@@ -78,7 +121,7 @@ export default {
       this.getTasksById();
     },
     deleteList() {
-    $("#deleteListModal"+this.listData.id).modal("hide")
+      $("#deleteListModal" + this.listData.id).modal("hide");
       this.$store.dispatch("deleteList", this.listData.id);
     },
   },
@@ -89,4 +132,11 @@ export default {
 
 
 <style scoped>
+.list {
+  width: 25rem;
+  display: inline-block;
+}
+::-webkit-scrollbar {
+  display: none;
+}
 </style>
