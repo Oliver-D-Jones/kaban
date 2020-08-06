@@ -145,7 +145,6 @@ export default {
     },
 
     scrollEvent() {
-      console.log(event);
       let dy = event.deltaY;
       let dx = event.deltaX;
       let direction = dy;
