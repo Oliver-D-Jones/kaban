@@ -1,6 +1,6 @@
 <template>
   <div class="list bg-dark border mr-3 py-1" v-on:drop="drop" v-on:dragover="allowDrop">
-    <div class="container-fluid" >
+    <div class="container-fluid">
       <div class="row justify-content-between">
         <div class="col-6">
           <button
@@ -96,15 +96,15 @@ export default {
     drop() {
       event.preventDefault();
       let data = event.dataTransfer.getData("text/plain");
-      data = JSON.parse(data)
+      data = JSON.parse(data);
       this.moveTask(data);
-      
     },
     moveTask(data) {
+      // debugger;
       this.$store.dispatch("draggedTask", {
         taskId: data.taskId,
         newListId: { list: this.listData.id },
-        oldListId: { list: data.oldListId },
+        oldListId: data.oldListId,
       });
     },
     addTask() {
