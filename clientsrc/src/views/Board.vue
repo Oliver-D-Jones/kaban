@@ -1,5 +1,5 @@
 <template>
-  <div class="board container-fluid pt-2 text-light bg-primary" :style="'width:'+(100+(lists.length-4)*25)+'%'">
+  <div class="board container-fluid pt-2 text-light bg-primary list-scroll">
     <div v-if="board.title">
       <div class="row row_top fixed-top">
         <div class="col-3">
@@ -150,8 +150,7 @@ export default {
 .board {
   /* width: 200%; */
   text-align: left;
-    margin-top:50px
-
+  margin-top: 50px;
 }
 .row_top {
   max-width: 100vw;
@@ -165,8 +164,28 @@ export default {
   /* overflow-x: scroll; */
 }
 .list {
-  min-height: 75vh;
+  /* min-height: 75vh; */
   max-height: 75vh;
   overflow-y: scroll;
+}
+
+.list-scroll {
+  width: auto;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.list-scroll::-webkit-scrollbar {
+  width: 2px;
+}
+.list-scroll::-webkit-scrollbar-track {
+  background: rgb(120, 120, 5 0.5);
+  border-radius: 10%;
+}
+.list-scroll::-webkit-scrollbar-thumb {
+  width: 4px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
 }
 </style>

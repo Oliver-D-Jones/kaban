@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="bg-primary">
-    <navbar class="fixed-top text-light"/>
-    <router-view style="margin-top:50px"/>
+    <navbar class="fixed-top text-light" />
+    <router-view style="margin-top:50px" />
   </div>
 </template>
 
@@ -38,7 +38,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   // background-color: black;
-  min-height: 100vh;
+  // min-height: 100vh;
 }
 
 #nav {
@@ -46,8 +46,7 @@ export default {
   background: rgb(134, 132, 132);
   font-weight: bold;
   color: rgb(26, 67, 109);
-  height:50px
-
+  height: 50px;
 }
 
 #nav a:hover {
