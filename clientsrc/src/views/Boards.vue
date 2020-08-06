@@ -71,7 +71,7 @@ export default {
   methods: {
     addBoard() {
       this.$store.dispatch("addBoard", this.newBoard);
-      this.newBoard = { title: "", description: ""};
+      this.newBoard = { title: "", description: "" };
     },
   },
 };

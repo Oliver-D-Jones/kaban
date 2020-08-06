@@ -1,6 +1,6 @@
 <template>
   <nav id="nav" class="navbar navbar-expand-lg border text-light mb-2 pl-3 pr-3">
-    <router-link class="navbar-brand border rounded shadow px-2" :to="{ name: 'home' }"
+    <router-link class="navbar-brand border text-light rounded shadow px-2" :to="{ name: 'home' }"
       >Kanban</router-link
     >
     <button
@@ -17,8 +17,8 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" :class="{ active: $route.name == 'home' }">
-          <router-link :to="{ name: 'home' }" class="nav-link"
-            >Home</router-link
+          <router-link :to="{ name: 'home' }" class="nav-link text-light"
+            ><span class="text-light">Home</span></router-link
           >
         </li>
         <li
@@ -27,7 +27,7 @@
           :class="{ active: $route.name == 'boards' }"
         >
           <router-link class="nav-link" :to="{ name: 'boards' }"
-            >Boards</router-link
+            ><span class="text-light">Boards</span></router-link
           >
         </li>
       </ul>

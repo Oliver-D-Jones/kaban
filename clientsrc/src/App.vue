@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="bg-primary">
-    <navbar class="fixed-top" />
+    <navbar class="fixed-top text-light"/>
     <router-view style="margin-top:50px"/>
   </div>
 </template>

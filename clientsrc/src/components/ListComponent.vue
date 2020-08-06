@@ -96,15 +96,15 @@ export default {
     drop() {
       event.preventDefault();
       let data = event.dataTransfer.getData("text/plain");
+      data = JSON.parse(data)
       this.moveTask(data);
-      this.tasks()
+      
     },
     moveTask(data) {
-      let keys = data.split(" ");
-      this.$store.dispatch("moveTask", {
-        taskId: keys[0],
+      this.$store.dispatch("draggedTask", {
+        taskId: data.taskId,
         newListId: { list: this.listData.id },
-        oldListId: { list: keys[1] },
+        oldListId: { list: data.oldListId },
       });
     },
     addTask() {

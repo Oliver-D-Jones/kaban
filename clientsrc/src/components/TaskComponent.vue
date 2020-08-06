@@ -72,9 +72,10 @@ export default {
   methods: {
     dragTask(id) {
       console.log("dragged task", id);
+      let data = {taskId:id,oldListId:this.taskData.list.id};
+
       event.dataTransfer.setData(
-        "text/plain",
-        `${id} ${this.taskData.list.id}`
+        "text/plain", JSON.stringify(data)
       );
     },
     moveTask(listId) {

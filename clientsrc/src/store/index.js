@@ -139,6 +139,15 @@ export default new Vuex.Store({
         dispatch("getTasksByListId", task.list.id)
       })
     },
+    draggedTask({ commit, dispatch,state }, taskData) {
+      api.put("tasks/" + taskData.taskId, taskData.newListId).then(res => {
+        // console.log(res)
+        // let oldListIndex = state.activeLists.findIndex(l=>l.id == taskData.newListId)
+        // let oldtaskListIndex = state.activeLists[oldListIndex]
+        // console.log(oldtaskListIndex)
+        dispatch("getTasksByListId", taskData.newListId.list)
+      })
+    },
 
     moveTask({ commit, dispatch }, taskData) {
       api.put("tasks/" + taskData.taskId, taskData.newListId).then(res => {
