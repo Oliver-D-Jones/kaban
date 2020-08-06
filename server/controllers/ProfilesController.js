@@ -10,6 +10,7 @@ export class ProfilesController extends BaseController {
     super("api/" + _endpoint);
     this.router
       .use(auth0provider.getAuthorizedUserInfo)
+      .put("/:email", this.recieveInvite)
       .get("", this.getUserProfile)
       .put("/:id", this.edit);
   }
@@ -27,6 +28,13 @@ export class ProfilesController extends BaseController {
       res.send(req.body);
     } catch (error) {
       next(error);
+    }
+  }
+  async recieveInvite(req, res, next) {
+    try {
+      await profilesService.inviteToBoard(req.body)
+    } catch (error) {
+      next(error)
     }
   }
 }

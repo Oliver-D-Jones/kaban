@@ -17,7 +17,7 @@
             type="button"
             class="btn btn-outline-light border rounded shadow font-weight-bold"
             data-toggle="modal"
-            data-target="#addListModal"
+            data-target="#inviteCollabModal"
           >Add a Collaborator</button>
         </div>
         <div class="col text-center text-shadow">
@@ -42,6 +42,8 @@
       <div v-else>
         <h1>Start By Making A List</h1>
       </div>
+
+      <!-- ---------------------------------------NEW LIST MODAL------------------------------------------------- -->
       <div class="modal fade" id="addListModal">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -64,6 +66,8 @@
           </div>
         </div>
       </div>
+
+      <!-- -----------------------------------DELETE MODAL--------------------------------------- -->
       <div class="modal fade" id="deleteBoardModal">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -82,6 +86,30 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-info" @click="deleteBoard">Confirm</button>
               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- --------------------------ADD COLLAB MODAL---------------------------------------------------- -->
+      <div class="modal fade" id="inviteCollabModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">invite Collaborator</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <input v-model="collaborator" type="text" class="form-control" />
+              <small>enter the email of the Collaborator you would like to invite</small>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-info" @click="inviteCollaborator">invite</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
@@ -124,6 +152,7 @@ export default {
   data: {
     return: {
       newList: null,
+      collaborator: "",
     },
   },
   computed: {
@@ -148,6 +177,15 @@ export default {
       $("#deleteBoardModal").modal("hide");
       this.$store.dispatch("deleteBoard", this.board.id);
       this.$router.push({ name: "boards" });
+    },
+
+    inviteCollaborator() {
+      $("#inviteCollabModal").modal("hide");
+      let invite = {
+        collaborator: this.collaborator,
+        board: this.board,
+      };
+      this.$store.dispatch("inviteCollab");
     },
 
     scrollEvent() {

@@ -92,6 +92,10 @@ export default new Vuex.Store({
         })
     },
 
+    inviteCollab({ commit, dispatch }, inviteData) {
+      api.put("profile/" + inviteData.collaborator, inviteData.board)
+    },
+
     //------------------LISTS -------------------------------------
     getListsById(context, boardId) {
       api.get('boards/' + boardId + "/lists").then(res => {
@@ -175,9 +179,6 @@ export default new Vuex.Store({
 
 
     //#endregion
-
-
-
     getStateFromLocal({ commit }) {
       let data = JSON.parse(window.localStorage.getItem("Kanban"));
       if (data) {
