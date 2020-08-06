@@ -61,6 +61,28 @@ export default new Vuex.Store({
         console.error(err)
       }
     },
+    async getKnownProfiles({ commit },email) {
+      
+      try {
+        let res = await api.get("/profile/" + email,email);
+        return res;
+      } catch (err) {
+        console.error("ER",err)
+      }
+    },
+   async  inviteCollab({ commit, dispatch }, inviteData) {
+    try {
+      let res = await api.put("profile/" + inviteData.collaborator, inviteData.board);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+
+
+
+
+    },
     //#endregion
 
 
@@ -92,9 +114,6 @@ export default new Vuex.Store({
         })
     },
 
-    inviteCollab({ commit, dispatch }, inviteData) {
-      api.put("profile/" + inviteData.collaborator, inviteData.board)
-    },
 
     //------------------LISTS -------------------------------------
     getListsById(context, boardId) {

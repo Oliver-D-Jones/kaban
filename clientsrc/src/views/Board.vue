@@ -102,13 +102,13 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-              <input v-model="collaborator" type="text" class="form-control" />
+              <input v-model="collaborator" type="text" class="form-control" placeholder="johndoe@gmail.com"/>
               <small>enter the email of the Collaborator you would like to invite</small>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-info" @click="inviteCollaborator">invite</button>
+              <button type="button" class="btn btn-info" @click="inviteCollaborator">Invite</button>
               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
           </div>
@@ -180,12 +180,14 @@ export default {
     },
 
     inviteCollaborator() {
+     let knownUsers = this.$store.dispatch("getKnownProfiles",this.collaborator.trim())
       $("#inviteCollabModal").modal("hide");
-      let invite = {
-        collaborator: this.collaborator,
-        board: this.board,
-      };
-      this.$store.dispatch("inviteCollab");
+      console.log(knownUsers);
+      // let invite = {
+      //   collaborator: this.collaborator,
+      //   board: this.board,
+      // };
+      // this.$store.dispatch("inviteCollab",invite);
     },
 
     scrollEvent() {
