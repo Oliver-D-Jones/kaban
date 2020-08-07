@@ -9,8 +9,9 @@ export class ProfilesController extends BaseController {
   constructor() {
     super("api/" + _endpoint);
     this.router
+      .get("/:email", this.getKnownProfiles)
       .use(auth0provider.getAuthorizedUserInfo)
-      .put("/:email", this.recieveInvite)
+      .put("/:email", this.placeInvite)
       .get("", this.getUserProfile)
       .put("/:id", this.edit);
   }
@@ -18,6 +19,15 @@ export class ProfilesController extends BaseController {
     try {
       let profile = await profilesService.getProfile(req.userInfo);
       res.send(profile);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getKnownProfiles(req, res, next) {
+    console.log(req);
+    try {
+      let profiles = await profilesService.getProfiles([req]);
+      res.send(profiles);
     } catch (error) {
       next(error);
     }
@@ -30,8 +40,9 @@ export class ProfilesController extends BaseController {
       next(error);
     }
   }
-  async recieveInvite(req, res, next) {
+  async placeInvite(req, res, next) {
     try {
+
       await profilesService.inviteToBoard(req.body)
     } catch (error) {
       next(error)
