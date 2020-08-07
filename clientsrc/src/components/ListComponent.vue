@@ -1,6 +1,6 @@
 <template>
   <div
-    class="list border rounded bg-rotate align-top mr-3 py-1"
+    class="list border rounded bg-rotate align-top mr-3 py-1 overflow-show"
     v-on:drop="drop"
     v-on:dragover="allowDrop"
   >
@@ -196,6 +196,9 @@ export default {
 
 
 <style scoped>
+.overflow-show {
+  overflow-y: visible;
+}
 .list {
   transition: height 0.3s ease;
 }
