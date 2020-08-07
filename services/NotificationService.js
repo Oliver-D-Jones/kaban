@@ -5,10 +5,10 @@ export default class NotificationService {
     try {
       let res = await swal.fire({
         title: title,
-        text: "You won't be able to revert this!",
+        text: "are you sure you want to Delete this?",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonText: 'confirm',
         cancelButtonText: 'No, cancel!',
       })
       if (res.value) {

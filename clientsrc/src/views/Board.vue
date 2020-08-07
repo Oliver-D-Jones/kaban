@@ -97,8 +97,7 @@
             v-tooltip:bottom="'Delete this Board'"
             type="button"
             class="btn btn-outline-danger border rounded box-hover text-light font-weight-bold mx-0"
-            data-toggle="modal"
-            data-target="#deleteBoardModal"
+            @click="deleteBoard"
           >
             <!-- TRASH ICON -->
             <svg
@@ -132,24 +131,36 @@
       </div>
 
       <!-- ---------------------------------------NEW LIST MODAL------------------------------------------------- -->
-      <div class="modal fade" id="addListModal">
+      <div class="modal fade bg-fade" id="addListModal">
         <div class="modal-dialog">
-          <div class="modal-content">
+          <div class="modal-content bg-primary mt-5 border-bottom">
             <!-- Modal Header -->
-            <div class="modal-header">
+            <div class="modal-header bg-blend-primary">
               <h4 class="modal-title">New List Title</h4>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
             <!-- Modal body -->
             <div class="modal-body">
-              <input v-model="newList.title" type="text" name id />
+              <input
+                v-model="newList.title"
+                type="text"
+                class="bg-transparent border rounded text-white"
+              />
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-info" @click="addList">Create</button>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button
+                type="button"
+                class="btn text-light bg-blend-secondary box-hover"
+                @click="addList"
+              >Create</button>
+              <button
+                type="button"
+                class="btn text-light bg-blend-danger box-hover"
+                data-dismiss="modal"
+              >Close</button>
             </div>
           </div>
         </div>
@@ -172,7 +183,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-info" @click="deleteBoard">Confirm</button>
+              <button type="button" class="btn btn-info">Confirm</button>
               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
           </div>
@@ -240,6 +251,7 @@
 
 <script>
 import List from "../components/ListComponent";
+// import NotificationService from "../../../services/NotificationService";
 export default {
   name: "board",
   data: {
@@ -266,8 +278,9 @@ export default {
       this.$store.dispatch("addList", this.newList);
       this.$store.dispatch("getListsById", this.board.id);
     },
-    deleteBoard() {
-      $("#deleteBoardModal").modal("hide");
+    async deleteBoard() {
+      // $("#deleteBoardModal").modal("hide");
+
       this.$store.dispatch("deleteBoard", this.board.id);
       this.$router.push({ name: "boards" });
     },
@@ -314,6 +327,10 @@ export default {
 };
 </script>
 <style>
+.bg-fade {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
 .test-box {
   height: 50px;
   width: 50px;

@@ -68,6 +68,10 @@ export default {
 
 
 <style>
+.modal-backdrop {
+  z-index: -1;
+}
+
 .site-font {
   font-family: "Varela Round", sans-serif;
 }

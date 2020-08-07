@@ -17,10 +17,10 @@
         {{taskData.body}}
       </h5>
 
-      <div class="btn-group">
+      <div class="btn-group drop-left">
         <button
           type="button"
-          v-tooltip:left="'Move the task to Another List'"
+          v-tooltip:left="'Move the task to Another List or delete'"
           class="btn box-hover btn-primary dropdown-toggle"
           data-toggle="dropdown"
         ></button>
@@ -103,6 +103,7 @@
 
 
 <script>
+// import noteSvc from "../../../services";
 import Comments from "./CommentComponent";
 export default {
   name: "task",

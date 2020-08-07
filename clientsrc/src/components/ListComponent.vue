@@ -59,8 +59,7 @@
             class="btn text-light mr-3 box-hover"
             v-tooltip:top="'Delete this List'"
             v-if="user.email == listData.creatorEmail"
-            data-toggle="modal"
-            :data-target="'#deleteListModal'+ this.listData.id"
+            @click="deleteList"
           >
             <svg
               width="1.5em"
@@ -125,6 +124,7 @@
 
 
 <script>
+// import NotificationService from "../../../services/NotificationService";
 import TaskComponent from "./TaskComponent";
 export default {
   name: "list",
@@ -176,15 +176,15 @@ export default {
       this.getTasksById();
     },
     deleteList() {
-      $("#deleteListModal" + this.listData.id).modal("hide");
+      // $("#deleteListModal" + this.listData.id).modal("hide");
       this.$store.dispatch("deleteList", this.listData.id);
     },
   },
   components: { TaskComponent },
   props: ["listData"],
   directives: {
-    tooltip: function (el, binding) {
-      $(el).tooltip({
+    tooltip: function (element, binding) {
+      $(element).tooltip({
         title: binding.value,
         placement: binding.arg,
         trigger: "hover",
