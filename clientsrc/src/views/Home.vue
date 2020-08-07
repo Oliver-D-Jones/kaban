@@ -1,5 +1,5 @@
 <template>
-  <div class="home bg-blend-primary text-primary full-screen site-font">
+  <div class="home bg-blend-primary-marble text-primary full-screen site-font">
     <div id="screen-fade" class="full-screen"></div>
     <div class="row justify-content-center full-screen align-items-center">
       <!-- ------------------------------IS NOT LOGGED IN--------------------------------------- -->
@@ -30,7 +30,8 @@
       <!-- ---------------------------------IS LOGGED IN---------------------------------------------------- -->
       <div v-if="$auth.isAuthenticated" class="col-8 text-light mb-5">
         <div class="row justify-content-center">
-          <div class="col-6 border rounded p-5 m-2 box-hover">go to my boards</div>
+          <div class="col-12 my-1">You're already logged in, what would you like to do?</div>
+          <div class="col-6 border rounded p-5 m-2 box-hover" @click="movePage">go to my boards</div>
           <div class="col-6 border rounded p-5 m-2 box-hover">you have 0 invites to boards</div>
         </div>
       </div>
@@ -56,7 +57,11 @@ export default {
       this.$store.state.user;
     },
   },
-  methods: {},
+  methods: {
+    movePage() {
+      this.$router.push({ name: "boards" });
+    },
+  },
   components: {},
 };
 </script>
@@ -79,28 +84,66 @@ export default {
   min-height: 100vh;
 }
 
+.x-hover {
+  transition: all 0.2s ease;
+}
+.x-hover:hover {
+  transform: scale(1.5, 1.5);
+}
+
 .box-hover {
-  transition: all 0.3s;
+  transition: all 0.32s;
+}
+
+.bg-blend-primary-marble {
+  background-image: linear-gradient(
+      to top right,
+      rgba(158, 50, 201, 0.98),
+      rgba(230, 56, 215, 0.95)
+    ),
+    url(https://previews.123rf.com/images/adistock/adistock1803/adistock180300001/96959868-old-marbled-paper-texture-black-and-white.jpg);
+  background-size: cover;
+}
+
+.bg-blend-secondary-marble {
+  background-image: linear-gradient(
+      to top right,
+      rgba(57, 173, 109, 0.98),
+      rgba(161, 218, 108, 0.95)
+    ),
+    url(https://previews.123rf.com/images/adistock/adistock1803/adistock180300001/96959868-old-marbled-paper-texture-black-and-white.jpg);
+  background-size: cover;
+}
+
+.bg-blend-dark-marble {
+  background-image: linear-gradient(
+      to bottom left,
+      rgb(22, 5, 44, 0.98),
+      rgb(12, 59, 18, 0.98)
+    ),
+    url(https://previews.123rf.com/images/adistock/adistock1803/adistock180300001/96959868-old-marbled-paper-texture-black-and-white.jpg);
+  background-size: cover;
 }
 
 .box-hover:hover {
   transform: translateY(-3px);
-  background-color: rgba(255, 255, 255, 0);
+  backdrop-filter: hue-rotate(10deg);
   box-shadow: 0px 3px rgb(255, 255, 255);
 }
 
 .bg-blend-primary {
+  background-blend-mode: darken;
   background-image: linear-gradient(
     to top right,
     rgb(158, 50, 201),
-    rgb(215, 50, 221)
+    rgb(230, 56, 215)
   );
 }
 .bg-blend-secondary {
   background-image: linear-gradient(
     to top right,
-    rgb(72, 204, 132),
-    rgb(110, 211, 101)
+    rgb(57, 173, 109),
+    rgb(161, 218, 108)
   );
 }
 .bg-blend-danger {
@@ -109,5 +152,16 @@ export default {
     rgb(255, 30, 68),
     rgb(255, 91, 41)
   );
+}
+.bg-blend-dark {
+  background-image: linear-gradient(
+    to bottom left,
+    rgb(22, 5, 44),
+    rgb(12, 59, 18)
+  );
+}
+
+.bg-rotate {
+  backdrop-filter: hue-rotate(15deg);
 }
 </style>

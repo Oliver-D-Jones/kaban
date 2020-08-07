@@ -21,6 +21,11 @@ export default {
       this.$router.push({ name: "home" });
     }
   },
+  mounted() {
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  },
   components: {
     Navbar,
   },
@@ -60,10 +65,10 @@ export default {
 }
 
 .slide-fade-enter-active {
-  transition: all 0.3s ease;
+  transition: all 1s ease;
 }
 .slide-fade-leave-active {
-  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
 .slide-fade-enter,
 .slide-fade-leave-to {
