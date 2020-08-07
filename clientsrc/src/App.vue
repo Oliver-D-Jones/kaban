@@ -1,7 +1,9 @@
 <template>
-  <div id="app" class="bg-primary">
+  <div id="app" class="bg-light">
     <navbar class="fixed-top text-light" />
-    <router-view style="margin-top:50px" />
+    <transition name="slide-fade" mode="out-in">
+      <router-view style="margin-top:50px" />
+    </transition>
   </div>
 </template>
 
@@ -30,7 +32,7 @@ export default {
 @import "./assets/_variables.scss";
 @import "bootstrap";
 @import "./assets/_overrides.scss";
-
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -55,5 +57,17 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateY(10px);
+  opacity: 0;
 }
 </style>
